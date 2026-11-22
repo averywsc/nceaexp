@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WSCW NCEA Guide | Western Springs College and Ngā Puna o Waiōrea</title>
+  <meta name="description" content="Clear guide to NCEA for Western Springs College and Ngā Puna o Waiōrea students and whānau. Explore Year 11, Year 12, and Year 13 WSCW subject credits, endorsements, University Entrance, and Rank Scores." />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=4" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#courses" class="site-brand" data-nav-view="courses">
+        <span class="brand-name">WSCW NCEA Guide</span>
+        <span class="brand-school">Western Springs College, Ngā Puna o Waiōrea</span>
+      </a>
+
+      <nav class="top-nav" aria-label="Main sections">
+        <button type="button" class="nav-tab active" data-view="courses">WSCW Courses</button>
+        <button type="button" class="nav-tab" data-view="basics">How NCEA Works</button>
+        <button type="button" class="nav-tab" data-view="endorsements">Endorsements</button>
+        <button type="button" class="nav-tab" data-view="university">University</button>
+        <button type="button" class="nav-tab" data-view="rules">Rules &amp; Terms</button>
+        <button type="button" class="nav-tab" data-view="links">Useful Links</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+
+    <!-- ====================================================================
+         VIEW 1: WSCW COURSES & CREDITS PLANNER
+         ==================================================================== -->
+    <section class="view-panel active" id="view-courses">
+      <div class="page-intro">
+        <span class="page-label">Western Springs College Course Books</span>
+        <h1>Subjects and Credits at WSCW</h1>
+        <p>
+          Choose your year level and click the subjects you plan to take. Everything below comes from the official Western Springs College and Ngā Puna o Waiōrea course books, showing your exact internal credits, external credits, and total credits per subject.
+        </p>
+      </div>
+
+      <div class="year-bar">
+        <div class="segmented" role="group" aria-label="Select year level">
+          <button type="button" class="seg-btn" data-year="y11">Year 11</button>
+          <button type="button" class="seg-btn active" data-year="y12">Year 12 (Level 2)</button>
+          <button type="button" class="seg-btn" data-year="y13">Year 13 (Level 3)</button>
+        </div>
+
+        <div class="summary-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="loadSampleTimetable">Load Typical Timetable</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="clearTimetable">Clear Selection</button>
+        </div>
+      </div>
+
+      <div class="pathway-banner" id="yearPathwayBanner"></div>
+
+      <!-- High-Contrast Light Summary Panel -->
+      <div class="summary-panel" aria-live="polite">
+        <div class="summary-top">
+          <div>
+            <div class="summary-kicker" id="summaryTitle">Your Year 12 (Level 2) Timetable Breakdown</div>
+            <h2 id="summaryHeadline">Loading subjects...</h2>
+          </div>
+          <div class="summary-actions" id="summaryExtraActions"></div>
+        </div>
+
+        <div class="summary-metrics">
+          <div class="metric-tile">
+            <div class="metric-val tabular" id="metricTotal">0</div>
+            <div class="metric-lbl" id="metricTotalLbl">Total credits offered</div>
+          </div>
+          <div class="metric-tile">
+            <div class="metric-val tabular" id="metricInternal">0</div>
+            <div class="metric-lbl">Internal credits</div>
+          </div>
+          <div class="metric-tile">
+            <div class="metric-val tabular" id="metricExternal">0</div>
+            <div class="metric-lbl">External credits</div>
+          </div>
+          <div class="metric-tile">
+            <div class="metric-val tabular" id="metricGoal">0 / 60</div>
+            <div class="metric-lbl" id="metricGoalLbl">Toward NCEA certificate</div>
+          </div>
+        </div>
+
+        <div class="selected-breakdown" id="selectedBreakdown"></div>
+
+        <div class="summary-verdict" id="summaryVerdict">
+          Select subjects from the list below to calculate your exact credit total.
+        </div>
+      </div>
+
+      <!-- Filter & Course List -->
+      <div class="filter-row">
+        <input type="search" id="courseSearch" class="input input-surface" placeholder="Search subjects (English, Biology, Art, Maths, Pāngarau...)" aria-label="Search WSCW subjects" />
+        <select id="facultyFilter" class="select input-surface" aria-label="Filter by learning area">
+          <option value="all">All Learning Areas</option>
+        </select>
+        <select id="pathwayFilter" class="select input-surface" aria-label="Filter by pathway" style="display: none;">
+          <option value="all">All Year 11 Pathways</option>
+          <option value="Springs (2-Year Level 2)">Springs (2-Year Level 2)</option>
+          <option value="Waiōrea (Level 1)">Ngā Puna o Waiōrea (Level 1)</option>
+        </select>
+      </div>
+
+      <div class="course-grid" id="wscwCourseGrid"></div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 2: HOW NCEA WORKS
+         ==================================================================== -->
+    <section class="view-panel" id="view-basics">
+      <div class="page-intro">
+        <span class="page-label">Core System Explained</span>
+        <h1>How NCEA Works at WSCW</h1>
+        <p>
+          NCEA stands for the National Certificate of Educational Achievement. Instead of getting one percentage out of 100 for a whole subject at the end of the year, every subject is broken into smaller topics called Standards, and each standard is worth a set number of credits.
+        </p>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>The 60-Credit Rule and WSCW's 3-Year Structure</h2>
+          <p>To earn NCEA at any level, you need 60 credits at that level (or above) plus the one-off 20-credit Literacy and Numeracy Co-requisite.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <span class="tag tag-brand" style="margin-bottom: 12px;">Year 11 at WSCW</span>
+            <h3>Two Distinct Pathways</h3>
+            <p style="font-size: 14.5px;">
+              <strong>Springs (Mainstream):</strong> Students take 6 subjects (English, Maths, Science, plus 3 options) on a <strong>2-year NCEA Level 2 pathway</strong>. Most Year 11 courses offer one Level 2 standard (2 to 6 credits), letting you bank roughly 20 to 30 Level 2 credits early while sitting the Co-requisite.
+            </p>
+            <p style="font-size: 14.5px;">
+              <strong>Ngā Puna o Waiōrea:</strong> Students work toward a full <strong>NCEA Level 1</strong> certificate (60 Level 1 credits across Pāngarau, Pūtaiao, Te Reo Māori or Te Reo Rangatira, Te Reo Pākehā, and options).
+            </p>
+          </div>
+
+          <div class="card">
+            <span class="tag tag-brand" style="margin-bottom: 12px;">Year 12 (Level 2)</span>
+            <h3>60 Level 2 Credits</h3>
+            <p style="font-size: 14.5px;">
+              Students take English (or Te Reo Pākehā / ESOL) plus 5 optional subjects (4 options for Waiōrea). Courses offer between 14 and 24 credits each.
+            </p>
+            <p style="font-size: 14.5px;">
+              Any Level 2 credits you earned in Year 11 count automatically toward your 60-credit NCEA Level 2 total. Level 2 is the key benchmark for apprenticeships, trades, and polytechnics.
+            </p>
+          </div>
+
+          <div class="card">
+            <span class="tag tag-brand" style="margin-bottom: 12px;">Year 13 (Level 3)</span>
+            <h3>60 Level 3 Credits</h3>
+            <p style="font-size: 14.5px;">
+              Students choose 5 subjects (English is required if you have not yet completed UE Literacy). Every Level 3 course at WSCW offers over 14 credits.
+            </p>
+            <p style="font-size: 14.5px;">
+              Entry into most Level 3 courses requires 12 Level 2 credits in that subject (or HOD approval). Passing 60 Level 3 credits awards NCEA Level 3, which is step one for University Entrance.
+            </p>
+          </div>
+        </div>
+
+        <div class="card-soft-green" style="margin-top: 18px;">
+          <strong>Note for Whānau Who Remember the Older 80-Credit Rule</strong>
+          <p style="margin-top: 6px; font-size: 14.5px;">
+            Previously, NCEA required 80 credits at Level 1 and 60 credits plus 20 carried-over credits at Levels 2 and 3. Under the current system, there are no 20 carry-over credits. Every level requires 60 credits at that level (or above), and the 20-credit Literacy and Numeracy Co-requisite sits in its own separate bucket.
+          </p>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>The 20-Credit Literacy and Numeracy Co-Requisite</h2>
+          <p>You must pass this once during high school to be awarded NCEA Level 1, 2, or 3. Most WSCW students start sitting these digital tests in Year 10 or Year 11.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <span class="tag tag-a" style="margin-bottom: 10px;">5 Credits</span>
+            <h3>Reading</h3>
+            <p style="font-size: 13.5px; color: var(--ink-muted); margin-bottom: 8px;">US32403 (English) or US32413 (Te Reo Matatini)</p>
+            <p style="font-size: 14.5px;">Understand everyday written texts, locate key ideas, and evaluate information for reliability and purpose.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-a" style="margin-bottom: 10px;">5 Credits</span>
+            <h3>Writing</h3>
+            <p style="font-size: 13.5px; color: var(--ink-muted); margin-bottom: 8px;">US32405 (English) or US32415 (Te Reo Matatini)</p>
+            <p style="font-size: 14.5px;">Write clear, accurate responses for real-world audiences using sound structure, grammar, and punctuation.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-a" style="margin-bottom: 10px;">10 Credits</span>
+            <h3>Numeracy</h3>
+            <p style="font-size: 13.5px; color: var(--ink-muted); margin-bottom: 8px;">US32406 (Maths) or US32412 (Pāngarau)</p>
+            <p style="font-size: 14.5px;">Apply everyday maths and statistics (percentages, budgets, graphs, measurement, probability) to practical problems.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 18px;">
+          <h3>How the Co-Requisite Assessments (CAAs) Work</h3>
+          <ul class="plain-list">
+            <li><strong>Digital online tests:</strong> Sat at school through NZQA's digital assessment platform during Term 2 and Term 3 windows.</li>
+            <li><strong>Unlimited retries:</strong> If you do not pass one component on your first try, you simply re-sit that part in the next assessment window.</li>
+            <li><strong>Achieved or Not Achieved only:</strong> There are no Merit or Excellence grades, so co-requisite credits never count toward Endorsements.</li>
+            <li><strong>Separate from your 60 credits:</strong> These 20 credits unlock your NCEA certificates, rather than filling the 60 subject credits.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>Achievement vs Unit Standards, Internal vs External</h2>
+          <p>Knowing which type of standard you are taking tells you what grades are possible and whether it counts toward Endorsements or University Entrance.</p>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>Detail</th>
+                <th>Achievement Standards (AS)</th>
+                <th>Unit Standards (US)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Where they appear</strong></td>
+                <td>Curriculum subjects (English, Biology, Calculus, History, Visual Art, Drama, Economics).</td>
+                <td>Practical and vocational courses (Outdoor Education, Performing Arts Technology, Gateway, Co-requisite).</td>
+              </tr>
+              <tr>
+                <td><strong>Possible grades</strong></td>
+                <td>Not Achieved, Achieved, Merit, Excellence</td>
+                <td>Usually Not Achieved or Achieved only</td>
+              </tr>
+              <tr>
+                <td><strong>Assessment type</strong></td>
+                <td>Internal assignments during the year and External exams or portfolios at year end.</td>
+                <td>Almost always Internal (except the external Co-requisite CAAs).</td>
+              </tr>
+              <tr>
+                <td><strong>Endorsements &amp; UE</strong></td>
+                <td>Count for Certificate Endorsements, Course Endorsements, and Level 3 UE Rank Scores.</td>
+                <td>Count toward your 60 NCEA credits, but generally do not count for Merit/Excellence endorsements or UE Rank Scores.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2" style="margin-top: 18px;">
+          <div class="card">
+            <h3>Internal Assessments</h3>
+            <p style="font-size: 14.5px;">Completed in class or at home during the year: essays, lab investigations, speeches, performances, coding projects, or design folios. Marked by your WSCW teachers and checked nationwide through NZQA External Moderation so grading stays fair across all schools.</p>
+          </div>
+          <div class="card">
+            <h3>External Assessments</h3>
+            <p style="font-size: 14.5px;">Marked independently by NZQA outside of school. Most are 3-hour November exams (on paper or digitally on laptops), while Art Design, Painting, Photography, DVC, and Technology use externally marked folio boards or submitted reports. Results are released online in mid-January.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>Grades and the 0 to 8 Exam Marking Scale</h2>
+          <p>NCEA is standards-based, not curved. Higher grades do not give you extra credits; they improve the quality of those credits for Endorsements and University Rank Scores.</p>
+        </div>
+
+        <div class="grid-4">
+          <div class="card">
+            <span class="tag tag-na" style="margin-bottom: 10px;">0 credits</span>
+            <h3>Not Achieved (N)</h3>
+            <p style="font-size: 14px;">Did not yet meet the standard criteria. Does not subtract from your other credits.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-a" style="margin-bottom: 10px;">2 Rank pts / cr</span>
+            <h3>Achieved (A)</h3>
+            <p style="font-size: 14px;">Solid grasp of the core skills. Full credits awarded. Typically asks you to describe or apply.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-m" style="margin-bottom: 10px;">3 Rank pts / cr</span>
+            <h3>Merit (M)</h3>
+            <p style="font-size: 14px;">In-depth understanding with clear reasoning. Typically asks you to explain in depth, justify, or analyse.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-e" style="margin-bottom: 10px;">4 Rank pts / cr</span>
+            <h3>Excellence (E)</h3>
+            <p style="font-size: 14px;">Comprehensive, perceptive mastery. Typically asks you to evaluate, compare, or synthesise.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+          <h3>How External Exam Scores Work (N0 to E8)</h3>
+          <p style="font-size: 15px;">
+            External exams do not use percentages. Each question (usually 3 questions per standard) is given a score from <strong>N0 to E8</strong>. Click any score below to see what it means:
+          </p>
+
+          <div class="scale-grid" role="group" aria-label="0 to 8 grade scores">
+            <button type="button" class="scale-btn sc-na" data-scale="N0"><span class="scale-code">N0</span><span class="scale-pts">0 pts</span></button>
+            <button type="button" class="scale-btn sc-na" data-scale="N1"><span class="scale-code">N1</span><span class="scale-pts">1 pt</span></button>
+            <button type="button" class="scale-btn sc-na" data-scale="N2"><span class="scale-code">N2</span><span class="scale-pts">2 pts</span></button>
+            <button type="button" class="scale-btn sc-a" data-scale="A3"><span class="scale-code">A3</span><span class="scale-pts">3 pts</span></button>
+            <button type="button" class="scale-btn sc-a" data-scale="A4"><span class="scale-code">A4</span><span class="scale-pts">4 pts</span></button>
+            <button type="button" class="scale-btn sc-m" data-scale="M5"><span class="scale-code">M5</span><span class="scale-pts">5 pts</span></button>
+            <button type="button" class="scale-btn sc-m" data-scale="M6"><span class="scale-code">M6</span><span class="scale-pts">6 pts</span></button>
+            <button type="button" class="scale-btn sc-e active" data-scale="E7"><span class="scale-code">E7</span><span class="scale-pts">7 pts</span></button>
+            <button type="button" class="scale-btn sc-e" data-scale="E8"><span class="scale-code">E8</span><span class="scale-pts">8 pts</span></button>
+          </div>
+
+          <div class="result-surface" id="scaleExplain" style="font-size: 14.5px;">
+            <strong>E7 (Low Excellence, 7 points):</strong> Comprehensive, Excellence-level work on this question with minor slips or a small omission.
+          </div>
+
+          <p style="font-size: 14.5px; margin-top: 16px;">
+            <strong>How the final paper grade is decided:</strong> The three question scores add up to a total out of 24. NZQA sets annual Cut Scores for each exam (commonly around 0 to 7 = NA, 8 to 13 = A, 14 to 18 = M, and 19 to 24 = E). That means getting E7 + M6 + M6 = 19/24 can earn an overall Excellence grade for the whole standard.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 3: ENDORSEMENTS
+         ==================================================================== -->
+    <section class="view-panel" id="view-endorsements">
+      <div class="page-intro">
+        <span class="page-label">Certificate &amp; Course Endorsements</span>
+        <h1>How Endorsements Work</h1>
+        <p>
+          Endorsements recognise consistently high achievement on your official NZQA Record of Achievement. There are two completely separate types of endorsement: Certificate Endorsements (for your whole level) and Course Endorsements (for an individual subject).
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="tag tag-e" style="margin-bottom: 12px;">Whole NCEA Level</span>
+          <h3>1. Certificate Endorsement</h3>
+          <p style="font-size: 14.5px;">Recognises strong overall results across all your subjects at Level 1, Level 2, or Level 3.</p>
+          <ul class="plain-list">
+            <li><strong>Excellence Endorsement:</strong> Earn at least <strong>50 credits at Excellence</strong> at that level or above.</li>
+            <li><strong>Merit Endorsement:</strong> Earn at least <strong>50 credits at Merit (or Merit + Excellence combined)</strong> at that level or above.</li>
+            <li><strong>Works across multiple years:</strong> At WSCW, Level 2 Merit or Excellence credits you earn in Year 11 automatically add to your Year 12 credits toward your Level 2 Certificate Endorsement.</li>
+            <li><strong>No internal/external split needed:</strong> Any mix of internal and external Achievement Standards counts.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="tag tag-m" style="margin-bottom: 12px;">Single Subject</span>
+          <h3>2. Course Endorsement</h3>
+          <p style="font-size: 14.5px;">Recognises strong achievement inside one specific subject (for example, Level 2 Biology Endorsed with Excellence).</p>
+          <ul class="plain-list">
+            <li><strong>14+ Credits Rule:</strong> Earn at least <strong>14 credits</strong> in that subject at the endorsement grade (or higher).</li>
+            <li><strong>Three levels available:</strong> Courses can be endorsed with <strong>Achieved</strong>, <strong>Merit</strong>, or <strong>Excellence</strong>.</li>
+            <li><strong>Single calendar year only:</strong> All 14 credits must be gained in the same school year. Year 11 Level 2 credits cannot combine with Year 12 credits for a Course Endorsement.</li>
+            <li><strong>The 3 Internal + 3 External Rule:</strong> At least 3 credits must be Internal and at least 3 credits must be External, both at the endorsement grade level (for Excellence endorsement, you need at least 3 internal E credits and at least 3 external E credits).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>Side-by-Side Rule Comparison</h2>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>Rule</th>
+                <th>Certificate Endorsement</th>
+                <th>Course Endorsement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Credits required</strong></td>
+                <td>50+ credits at Merit/Excellence (or 50+ at Excellence)</td>
+                <td>14+ credits at Achieved, Merit/Excellence, or Excellence</td>
+              </tr>
+              <tr>
+                <td><strong>Timeframe</strong></td>
+                <td>Can be earned across multiple years (including Y11 + Y12 at WSCW)</td>
+                <td>Must be earned in one single calendar year</td>
+              </tr>
+              <tr>
+                <td><strong>Internal / External mix</strong></td>
+                <td>No split required</td>
+                <td>Minimum 3 Internal + 3 External at the endorsement grade</td>
+              </tr>
+              <tr>
+                <td><strong>Exempt subjects</strong></td>
+                <td>Not applicable</td>
+                <td>Physical Education (L2/L3), Religious Studies, Level 3 Visual Arts (Painting, Design, Photography), NZSL (L2/L3), Level 2 Psychology</td>
+              </tr>
+              <tr>
+                <td><strong>Co-requisite credits</strong></td>
+                <td>Do not count (Achieved/Not Achieved only)</td>
+                <td>Do not count</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-soft-green" style="margin-top: 18px;">
+          <strong>Important for WSCW Art and PE Students</strong>
+          <p style="margin-top: 6px; font-size: 14.5px;">
+            At WSCW, Level 2 and Level 3 Physical Education / Hākinakina are 100% internal, and NZQA explicitly exempts PE from the 3-external rule so you can still get Merit or Excellence Course Endorsement. Similarly, Level 3 Art Design, Art Painting, and Art Photography are exempt and can be endorsed via their 14-credit external folio board alone. Subjects like Level 2/3 Music, Design Technology, and Food Technology at WSCW are internal-only and are not on NZQA's exemption list, so while their Merit and Excellence credits count fully toward your Certificate Endorsement and Rank Score, they cannot earn a Course Endorsement without 3 external credits.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tool 1: Certificate Endorsement Simulator -->
+      <div class="block">
+        <div class="tool-card">
+          <div class="tool-head">
+            <div>
+              <h3>Certificate Endorsement Simulator</h3>
+              <p style="font-size: 14.5px;">Adjust your credits to see whether you pass NCEA and earn a Merit or Excellence Certificate Endorsement.</p>
+            </div>
+            <div class="segmented" role="group" aria-label="Select NCEA Level">
+              <button type="button" class="seg-btn" data-cert-level="1">Level 1</button>
+              <button type="button" class="seg-btn active" data-cert-level="2">Level 2</button>
+              <button type="button" class="seg-btn" data-cert-level="3">Level 3</button>
+            </div>
+          </div>
+
+          <div class="tool-grid">
+            <div>
+              <div class="slider-group">
+                <div class="slider-label">
+                  <span><strong>Excellence</strong> credits</span>
+                  <span class="tabular" id="simEVal" style="font-weight: 700;">24 cr</span>
+                </div>
+                <input type="range" id="simE" min="0" max="90" value="24" />
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-label">
+                  <span><strong>Merit</strong> credits</span>
+                  <span class="tabular" id="simMVal" style="font-weight: 700;">28 cr</span>
+                </div>
+                <input type="range" id="simM" min="0" max="90" value="28" />
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-label">
+                  <span><strong>Achieved</strong> credits</span>
+                  <span class="tabular" id="simAVal" style="font-weight: 700;">18 cr</span>
+                </div>
+                <input type="range" id="simA" min="0" max="90" value="18" />
+              </div>
+
+              <div style="font-size: 14px; font-weight: 600; margin-top: 18px;">20-Credit Co-Requisite (One-Off)</div>
+              <div class="check-row">
+                <label class="check-box"><input type="checkbox" id="simRead" checked /><span>Reading (5 cr)</span></label>
+                <label class="check-box"><input type="checkbox" id="simWrite" checked /><span>Writing (5 cr)</span></label>
+                <label class="check-box"><input type="checkbox" id="simNum" checked /><span>Numeracy (10 cr)</span></label>
+              </div>
+            </div>
+
+            <div class="result-surface" aria-live="polite">
+              <div id="simBadgeRow"></div>
+              <div class="result-heading" id="simHeadline">NCEA Level 2: Merit</div>
+              <p id="simSummary" style="font-size: 14.5px;"></p>
+
+              <div class="credit-bar" aria-label="Credit breakdown">
+                <div class="bar-e" id="simBarE" style="width: 24%;"></div>
+                <div class="bar-m" id="simBarM" style="width: 28%;"></div>
+                <div class="bar-a" id="simBarA" style="width: 18%;"></div>
+              </div>
+              <div class="bar-scale tabular">
+                <span>0 cr</span>
+                <span>50 cr (Endorse)</span>
+                <span>60 cr (Pass)</span>
+                <span>100+ cr</span>
+              </div>
+
+              <ul class="status-list" id="simChecklist"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool 2: Course Endorsement Tester -->
+      <div class="block">
+        <div class="tool-card">
+          <div class="tool-head">
+            <div>
+              <h3>Course Endorsement Tester (WSCW Subjects)</h3>
+              <p style="font-size: 14.5px;">Load any real WSCW Level 2 or Level 3 course, change the grades, and see whether it earns an endorsement.</p>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <select id="loadWscwCoursePreset" class="select" aria-label="Load a WSCW course">
+                <option value="">Load a WSCW subject...</option>
+              </select>
+              <select id="courseSubjectType" class="select" aria-label="Endorsement rule type">
+                <option value="standard">Standard Rule (3 Int + 3 Ext)</option>
+                <option value="exempt">Exempt Course (PE, L3 Art, RE, NZSL)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tool-grid">
+            <div>
+              <div class="row-grid-course row-head">
+                <span>Standard</span>
+                <span>Type</span>
+                <span>Credits</span>
+                <span>Grade</span>
+                <span></span>
+              </div>
+              <div id="courseRows"></div>
+              <div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-secondary btn-sm" id="addAssessmentBtn">Add Standard</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="presetTrapBtn">Try "Missing External" Example</button>
+              </div>
+            </div>
+
+            <div class="result-surface" aria-live="polite">
+              <div id="courseBadge"></div>
+              <div class="result-heading" id="courseHeadline">Endorsed with Excellence</div>
+              <p id="courseDiagnosis" style="font-size: 14.5px;"></p>
+              <ul class="status-list" id="courseChecklist"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 4: UNIVERSITY ENTRANCE, RANK SCORE & SCHOLARSHIP
+         ==================================================================== -->
+    <section class="view-panel" id="view-university">
+      <div class="page-intro">
+        <span class="page-label">Tertiary &amp; Career Pathways</span>
+        <h1>University Entrance, Rank Scores, and Scholarship</h1>
+        <p>
+          University Entrance (UE) is the minimum requirement to enrol in a New Zealand university degree. Competitive degrees also require a specific Rank Score calculated from your best 80 Level 3 credits.
+        </p>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>The 4 Requirements for University Entrance (UE)</h2>
+        </div>
+
+        <div class="grid-4">
+          <div class="card">
+            <span class="tag tag-brand" style="margin-bottom: 10px;">Requirement 1</span>
+            <h3>NCEA Level 3</h3>
+            <p style="font-size: 14.5px;">Earn the full NCEA Level 3 qualification (60 Level 3 credits plus the 20-credit Co-requisite).</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-brand" style="margin-bottom: 10px;">Requirement 2</span>
+            <h3>3 Approved Subjects</h3>
+            <p style="font-size: 14.5px;">Earn at least <strong>14 credits at Level 3</strong> in each of <strong>three UE-approved subjects</strong>.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-brand" style="margin-bottom: 10px;">Requirement 3</span>
+            <h3>UE Literacy</h3>
+            <p style="font-size: 14.5px;"><strong>10 credits at Level 2 or above</strong> from NZQA's UE Literacy list: <strong>5 Reading + 5 Writing</strong>.</p>
+          </div>
+          <div class="card">
+            <span class="tag tag-brand" style="margin-bottom: 10px;">Requirement 4</span>
+            <h3>UE Numeracy</h3>
+            <p style="font-size: 14.5px;"><strong>10 credits at Level 1 or above</strong>. Passing the Numeracy Co-requisite (US32406 / 32412) ticks this off.</p>
+          </div>
+        </div>
+
+        <div class="card-soft-amber" style="margin-top: 18px;">
+          <strong>Common Trap: NCEA Literacy Is Not UE Literacy</strong>
+          <p style="margin-top: 6px; font-size: 14.5px;">
+            Passing the Level 1 Reading and Writing Co-requisite unlocks NCEA Levels 1, 2, and 3, but it does <strong>not</strong> give you UE Literacy. You still need 5 Reading and 5 Writing credits from Level 2 or Level 3 UE Literacy standards (such as WSCW's Level 2 English, Classics, History, Art History, Health, Economics, or Biology). You can check exact UE Reading and Writing credits on every subject inside the WSCW Courses tab.
+          </p>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>University Rank Score Calculator</h2>
+          <p>Universities take your best 80 Level 3 credits from up to 5 UE-approved subjects, capping each subject at 24 credits. Points: Excellence = 4, Merit = 3, Achieved = 2. Maximum score is 320.</p>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-head">
+            <div>
+              <h3>Calculate Your UE Status and Rank Score</h3>
+              <p style="font-size: 14.5px;">Enter your expected Level 3 grades, or import the Year 13 subjects you selected on the WSCW Courses tab.</p>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button type="button" class="btn btn-primary btn-sm" id="importY13Btn">Import My WSCW Year 13 Subjects</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="resetUeBtn">Reset Sample</button>
+            </div>
+          </div>
+
+          <div class="tool-grid">
+            <div>
+              <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">1. Base UE Checklist</div>
+              <div class="check-row" style="margin-top: 0; margin-bottom: 20px;">
+                <label class="check-box"><input type="checkbox" id="ueL3" checked /><span>NCEA Level 3</span></label>
+                <label class="check-box"><input type="checkbox" id="ueLit" checked /><span>UE Literacy (5R + 5W)</span></label>
+                <label class="check-box"><input type="checkbox" id="ueNum" checked /><span>UE Numeracy (10 cr)</span></label>
+              </div>
+
+              <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">2. Level 3 Credits in Up to 5 UE-Approved Subjects</div>
+              <div class="row-grid-ue row-head">
+                <span>Subject</span>
+                <span>E (x4)</span>
+                <span>M (x3)</span>
+                <span>A (x2)</span>
+                <span>Capped</span>
+              </div>
+              <div id="ueSubjectRows"></div>
+            </div>
+
+            <div class="result-surface" aria-live="polite">
+              <div id="ueStatusBadge"></div>
+              <div style="display: flex; align-items: baseline; gap: 6px; margin: 12px 0 6px;">
+                <span class="big-score tabular" id="ueRankScore">268</span>
+                <span class="big-score-max">/ 320</span>
+              </div>
+              <p style="font-size: 13.5px; color: var(--ink-muted);" id="ueCreditSummary"></p>
+              <ul class="status-list" id="ueChecklist"></ul>
+              <p style="font-size: 14px; margin-top: 16px;" id="ueBenchmarks"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-box" style="margin-top: 20px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Typical Rank Score</th>
+                <th>Example NZ University Programmes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong class="tabular">140 to 180</strong></td>
+                <td>General Bachelor of Arts, Science, or Commerce at most New Zealand universities (always check subject prerequisites).</td>
+              </tr>
+              <tr>
+                <td><strong class="tabular">210 to 250</strong></td>
+                <td>Law Part I (University of Auckland), Conjoint degrees, Commerce Honours pathways, Architecture (plus portfolio).</td>
+              </tr>
+              <tr>
+                <td><strong class="tabular">260 to 280+</strong></td>
+                <td>University of Auckland Engineering (typically 260 plus Calculus and Physics externals), Biomedical Science (280), competitive Entrance Scholarships.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>New Zealand Scholarship (Year 13)</h2>
+          <p>WSCW offers Scholarship preparation classes in Year 13. Scholarship exams sit above Level 3, award no NCEA credits, and provide cash awards for university study in New Zealand.</p>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>Award</th>
+                <th>Value</th>
+                <th>How You Win It</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Premier Award</strong></td>
+                <td><strong class="tabular">$10,000 per year</strong> (up to 3 years, $30,000 total)</td>
+                <td>Top 7 to 13 students in New Zealand (usually 3+ Outstanding Scholarships plus high overall results).</td>
+              </tr>
+              <tr>
+                <td><strong>Outstanding Scholar</strong></td>
+                <td><strong class="tabular">$5,000 per year</strong> (up to 3 years, $15,000 total)</td>
+                <td>Next top 40 to 60 students nationally (e.g. 3 Scholarships with 2+ Outstanding, or 5+ Scholarships including 1 Outstanding).</td>
+              </tr>
+              <tr>
+                <td><strong>Top Subject Scholar</strong></td>
+                <td><strong class="tabular">$2,000 per year</strong> (up to 3 years, $6,000 total)</td>
+                <td>Highest-scoring candidate in New Zealand for a single Scholarship subject.</td>
+              </tr>
+              <tr>
+                <td><strong>Scholarship Award</strong></td>
+                <td><strong class="tabular">$2,000 per year</strong> (up to 3 years, $6,000 total)</td>
+                <td>Pass Scholarship in 3 or more subjects (or gain Outstanding in at least 2 subjects).</td>
+              </tr>
+              <tr>
+                <td><strong>Single Subject Award</strong></td>
+                <td><strong class="tabular">$500 one-off</strong> (up to $1,000 for 2 subjects)</td>
+                <td>Pass Scholarship in 1 or 2 individual subjects.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 14px; color: var(--ink-muted); margin-top: 12px;">
+          Multi-year monetary awards require full-time tertiary study in New Zealand and maintaining at least a B grade average each year.
+        </p>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>Vocational Pathways (Level 2 Trades &amp; Industry)</h2>
+          <p>If you are aiming for trades, apprenticeships, or industry training, earn a Vocational Pathways Award alongside NCEA Level 2 by gaining 60 Level 2 credits from a sector's recommended list (including at least 20 sector-related credits).</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h4>Primary Industries</h4>
+            <p style="font-size: 14px;">Agriculture, horticulture, forestry, aquaculture, animal care.</p>
+          </div>
+          <div class="card">
+            <h4>Manufacturing &amp; Technology</h4>
+            <p style="font-size: 14px;">Engineering, digital technology, aviation, electronics, food tech.</p>
+          </div>
+          <div class="card">
+            <h4>Construction &amp; Infrastructure</h4>
+            <p style="font-size: 14px;">Building, electrical, plumbing, civil works, architecture.</p>
+          </div>
+          <div class="card">
+            <h4>Services Industries</h4>
+            <p style="font-size: 14px;">Hospitality, tourism, retail, business, finance, transport.</p>
+          </div>
+          <div class="card">
+            <h4>Social &amp; Community Services</h4>
+            <p style="font-size: 14px;">Healthcare, teaching, policing, defence, sport, social work.</p>
+          </div>
+          <div class="card">
+            <h4>Creative Industries</h4>
+            <p style="font-size: 14px;">Design, film, journalism, music, performing and visual arts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: RULES, POLICIES, REFORMS & GLOSSARY
+         ==================================================================== -->
+    <section class="view-panel" id="view-rules">
+      <div class="page-intro">
+        <span class="page-label">Assessment Rules &amp; Reference</span>
+        <h1>Safety Nets, Policies, and NCEA Terms</h1>
+        <p>
+          Clear answers to the most important NZQA and WSCW rules around resubmissions, mock exams, special assessment conditions, future reforms, and everyday acronyms.
+        </p>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>Essential Assessment Rules</h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item open">
+            <button type="button" class="faq-btn" aria-expanded="true">
+              <span>Resubmissions vs Further Assessment Opportunities (FAOs)</span>
+              <span class="faq-toggle-word">Hide</span>
+            </button>
+            <div class="faq-body">
+              <p><strong>Resubmission (NA to Achieved only):</strong> Offered only when your internal assessment sits on the borderline between Not Achieved and Achieved, letting you fix a small specific mistake without further teaching. Under NZQA rules, the maximum grade from a resubmission is Achieved. You cannot resubmit to move from Achieved to Merit or Merit to Excellence.</p>
+              <p><strong>Further Assessment Opportunity (FAO):</strong> A brand-new assessment task for the same standard after additional teaching. Schools can offer at most one FAO per standard per year (not all standards offer one). Unlike a resubmission, an FAO allows the full range of grades up to Excellence.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false">
+              <span>Derived Grades (Why WSCW Term 3 Practice Exams Matter)</span>
+              <span class="faq-toggle-word">Show</span>
+            </button>
+            <div class="faq-body">
+              <p>If acute illness, injury, bereavement, or approved national representation stops you sitting a November external exam (or severely affects your performance), you can apply for a Derived Grade.</p>
+              <p>NZQA only approves Derived Grades supported by verified, standard-specific school evidence, which almost always comes from your Term 3 Practice Exams. Treating WSCW practice exams seriously gives you an essential safety net if anything goes wrong in November. Note that Derived Grades cannot be used for externally submitted portfolios or NZ Scholarship.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false">
+              <span>Special Assessment Conditions (SAC)</span>
+              <span class="faq-toggle-word">Show</span>
+            </button>
+            <div class="faq-body">
+              <p>Students with diagnosed learning, sensory, medical, or physical barriers (such as dyslexia, ADHD, anxiety disorders, or visual impairments) can apply through WSCW Learning Support for SAC. Support includes extra time, a reader or writer, computer use, rest breaks, or a separate room so you can show what you know fairly.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false">
+              <span>Reviews vs Reconsiderations (After January Results)</span>
+              <span class="faq-toggle-word">Show</span>
+            </button>
+            <div class="faq-body">
+              <p>When external results arrive in January, you can check your marked papers and apply (typically by late February) for either a <strong>Review</strong> (free check for clerical or addition errors, without re-marking) or a <strong>Reconsideration</strong> (small fee, refunded if your grade increases, where a senior marker completely re-marks your paper). Always review your paper with your teacher before applying.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false">
+              <span>STAR and Gateway Rules for International Students at WSCW</span>
+              <span class="faq-toggle-word">Show</span>
+            </button>
+            <div class="faq-body">
+              <p>Per WSCW's official course books, fully STAR-funded courses are funded only for New Zealand residents. International students are not eligible for Performing Arts Technology (PAT), Gateway, Sports Academy, the First Aid component of Year 12 Health, or the Year 13 university Philosophy paper. Check with the WSCW International Department before locking in selections.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false">
+              <span>Future Qualification Reforms (2026 to 2030)</span>
+              <span class="faq-toggle-word">Show</span>
+            </button>
+            <div class="faq-body">
+              <p>The New Zealand Government has announced plans to gradually replace NCEA with a subject-based system featuring a Year 11 Foundational Award, a Year 12 New Zealand Certificate of Education (NZCE, from around 2028), and a Year 13 New Zealand Advanced Certificate of Education (NZACE, from around 2029/2030) graded from A+ to E.</p>
+              <p><strong>Crucial reassurance:</strong> Nobody has to switch systems mid-stream. Students currently in senior school at WSCW finish under the NCEA framework explained in this guide, and all NCEA qualifications remain fully valid and recognised.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>NCEA Glossary</h2>
+          <p>Search any acronym or term you see in your WSCW course book or on the NZQA Learner Portal.</p>
+        </div>
+
+        <div class="filter-row">
+          <input type="search" id="glossarySearch" class="input input-surface" placeholder="Search terms (CAA, Cut Score, Moderation, NSN, ROA, UE)..." aria-label="Search glossary terms" />
+          <div class="segmented" role="group" aria-label="Glossary category">
+            <button type="button" class="seg-btn active" data-gloss-cat="all">All</button>
+            <button type="button" class="seg-btn" data-gloss-cat="core">Core</button>
+            <button type="button" class="seg-btn" data-gloss-cat="assessment">Assessment</button>
+            <button type="button" class="seg-btn" data-gloss-cat="pathway">Pathways</button>
+          </div>
+        </div>
+
+        <div class="glossary-grid" id="glossaryGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div>WSCW NCEA Guide based on Western Springs College and Ngā Puna o Waiōrea course books and NZQA rules.</div>
+    <div>
+      Official links:
+      <a href="https://westernsprings.school.nz/year-11-course-book/" target="_blank" rel="noopener noreferrer">Year 11</a>,
+      <a href="https://westernsprings.school.nz/year-12-ncea-level-2-course-book/" target="_blank" rel="noopener noreferrer">Year 12</a>,
+      <a href="https://westernsprings.school.nz/year-13-ncea-level-3-course-book/" target="_blank" rel="noopener noreferrer">Year 13</a>,
+      <a href="https://www.nzqa.govt.nz/" target="_blank" rel="noopener noreferrer">NZQA</a>
+    </div>
+  </footer>
+
+  <script src="wscw-data.js?v=3"></script>
+  <script src="app.js?v=3"></script>
+</body>
+</html>
