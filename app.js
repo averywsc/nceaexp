@@ -58,7 +58,7 @@ function initViewNavigation() {
   });
 
   const hash = window.location.hash.replace("#", "");
-  if (["courses", "basics", "endorsements", "university", "rules"].includes(hash)) {
+  if (["courses", "basics", "endorsements", "university", "rules", "links"].includes(hash)) {
     switchView(hash);
   }
 }
